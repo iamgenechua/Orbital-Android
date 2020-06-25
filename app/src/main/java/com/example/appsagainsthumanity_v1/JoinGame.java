@@ -56,8 +56,8 @@ public class JoinGame extends AppCompatActivity {
         } else {
             // Connect to Socket Server
             try {
-                socket = IO.socket("http://10.0.2.2:3000"); // for testing purpose
-                //socket = IO.socket("https://orbitalhumanity.herokuapp.com/");
+//                socket = IO.socket("http://10.0.2.2:3000"); // for testing purpose
+                socket = IO.socket("https://orbitalhumanity.herokuapp.com/");
                 socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
