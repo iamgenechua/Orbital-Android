@@ -4,21 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="#120320"
     tools:context=".gameEnded">
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="46dp"
         android:layout_marginLeft="46dp"
         android:layout_marginTop="67dp"
+        android:layout_marginEnd="82dp"
+        android:layout_marginRight="82dp"
+        android:layout_marginBottom="20dp"
         android:text="Your Score"
-        android:textColor="#FFFFFF"
+        android:textColor="#FFEB3B"
         android:textSize="30sp"
         android:textStyle="bold"
         app:fontFamily="sans-serif-smallcaps"
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
+        app:layout_constraintEnd_toStartOf="@+id/scoreTextview"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,123 +32,109 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="46dp"
-        android:layout_marginLeft="46dp"
         android:layout_marginTop="20dp"
         android:text="Rounds"
-        android:textColor="#FFFFFF"
+        android:textColor="#FFEB3B"
         android:textSize="30sp"
         android:textStyle="bold"
         app:fontFamily="sans-serif-smallcaps"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
         android:id="@+id/textView16"
-        android:layout_width="101dp"
+        android:layout_width="0dp"
         android:layout_height="46dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginLeft="46dp"
         android:layout_marginTop="41dp"
         android:gravity="center"
         android:text="ranking"
-        android:textColor="#FFFFFF"
+        android:textColor="#F44336"
         android:textSize="24sp"
         android:textStyle="bold"
         app:fontFamily="sans-serif-smallcaps"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <TextView
         android:id="@+id/textView17"
-        android:layout_width="101dp"
+        android:layout_width="wrap_content"
         android:layout_height="46dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="102dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
         android:gravity="center"
         android:text="name"
-        android:textColor="#FFFFFF"
+        android:textColor="#F44336"
         android:textSize="24sp"
         android:textStyle="bold"
         app:fontFamily="sans-serif-smallcaps"
-        app:layout_constraintStart_toEndOf="@+id/textView16"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView16"
+        app:layout_constraintStart_toEndOf="@+id/textView16" />
 
     <TextView
         android:id="@+id/textView18"
-        android:layout_width="101dp"
+        android:layout_width="wrap_content"
         android:layout_height="46dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
         android:gravity="center"
         android:text="score"
-        android:textColor="#FFFFFF"
+        android:textColor="#F44336"
         android:textSize="24sp"
         android:textStyle="bold"
         app:fontFamily="sans-serif-smallcaps"
-        app:layout_constraintStart_toEndOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/roundsTextview" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView16"
+        app:layout_constraintStart_toEndOf="@+id/textView17" />
 
     <TextView
         android:id="@+id/scoreTextview"
         android:layout_width="85dp"
         android:layout_height="53dp"
-        android:layout_marginStart="300dp"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="55dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
         android:background="@drawable/entryboxbg"
         android:gravity="center"
         android:text="20"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/roundsTextview"
         android:layout_width="85dp"
         android:layout_height="53dp"
-        android:layout_marginStart="300dp"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="20dp"
         android:background="@drawable/entryboxbg"
         android:gravity="center"
         android:text="20"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scoreTextview" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView13"
+        app:layout_constraintEnd_toEndOf="@+id/scoreTextview" />
 
     <ListView
         android:id="@+id/rankingListview"
-        android:layout_width="66dp"
-        android:layout_height="262dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginLeft="46dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView16"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <ListView
         android:id="@+id/nameListview"
-        android:layout_width="159dp"
-        android:layout_height="262dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginLeft="26dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toEndOf="@+id/rankingListview"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        app:layout_constraintStart_toStartOf="@+id/textView17"
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <ListView
         android:id="@+id/scoreListview"
-        android:layout_width="77dp"
-        android:layout_height="262dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginLeft="13dp"
-        android:layout_marginTop="21dp"
-        app:layout_constraintStart_toEndOf="@+id/nameListview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/textView18"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
     <Button
@@ -151,15 +143,16 @@
         android:layout_height="49dp"
         android:layout_marginStart="109dp"
         android:layout_marginLeft="109dp"
-        android:layout_marginTop="25dp"
         android:layout_marginEnd="109dp"
         android:layout_marginRight="109dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/greybuttonbg"
         android:onClick="playAgain"
         android:text="Play again!"
+        app:layout_constraintBottom_toTopOf="@+id/quitRmBttn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rankingListview" />
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/quitRmBttn"
@@ -167,16 +160,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="109dp"
         android:layout_marginLeft="109dp"
-        android:layout_marginTop="14dp"
         android:layout_marginEnd="109dp"
         android:layout_marginRight="109dp"
+        android:layout_marginBottom="50dp"
         android:width="230dp"
         android:height="49dp"
         android:background="@drawable/entryboxbg"
         android:onClick="quitRoom"
         android:text="Quit room"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playAgaBttn" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

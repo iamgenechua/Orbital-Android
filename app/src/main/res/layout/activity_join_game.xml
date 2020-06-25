@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
+    android:background="#120320"
     tools:context=".JoinGame">
 
 
@@ -29,11 +29,11 @@
 
     <EditText
         android:id="@+id/nameEntry"
-        android:layout_width="0dp"
+        android:layout_width="198dp"
         android:layout_height="48dp"
         android:layout_marginStart="70dp"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="70dp"
         android:layout_marginRight="70dp"
         android:background="@drawable/entryboxbg"
@@ -42,7 +42,7 @@
         android:hint="Enter your name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/roomEntry" />
 
@@ -52,52 +52,57 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="180dp"
         android:layout_marginLeft="180dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="180dp"
         android:layout_marginRight="180dp"
+        android:background="@drawable/join_button_bg"
         android:onClick="joinGame"
         android:text="Join"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEntry" />
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="296dp"
-        android:layout_height="69dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:text="HUMANITY"
-        android:textColor="#FFFFFF"
+        android:layout_width="wrap_content"
+        android:layout_height="66dp"
+        android:layout_marginBottom="68dp"
+        android:text="SPONTANEITY"
+        android:textColor="#F54715"
         android:textSize="48sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/roomEntry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="237dp"
+        android:layout_width="wrap_content"
         android:layout_height="65dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="44dp"
-        android:text="APP"
-        android:textColor="#FFFFFF"
+        android:layout_marginTop="92dp"
+        android:text="SPACE"
+        android:textColor="#F54715"
         android:textSize="48sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="263dp"
+        android:layout_width="wrap_content"
         android:layout_height="66dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
         android:text="AGAINST"
-        android:textColor="#FFFFFF"
+        android:textColor="#FBF137"
         android:textSize="48sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 

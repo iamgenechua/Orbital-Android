@@ -2,23 +2,22 @@ package com.example.appsagainsthumanity_v1;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +26,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
 
-import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
@@ -44,37 +41,34 @@ public class MainActivity extends Activity {
     TextView textView_timer;
     TextView textView_score;
     TextView textView_round;
+    TextView textView_playerName;
+    public static TextView textView_annoucement;
+    public static TextView textView_area;
 
-    // for the display of player-info window
-    ConstraintLayout playerListLayout;
-    public static ArrayList<String> playerList;
-    Button bttn_backToMain;
-    ListView playerListview;
-    ArrayAdapter<String> arrayAdapterPlayers;
+    // for displaying of player-info
+    public static ArrayList<String> playerList; // a list with all player names
 
-    // for displaying of winning card during intermission
-    TextView playgroundBanner;
-    TextView winningCard;
-
+    // for displaying of player Hand info
     ArrayList<String> hand;
-    ListView listView_answers;
-    ArrayAdapter<String> arrayAdapterHand;
-    Optional<String> chosenCard;
+    public static RecyclerView recyclerViewHand;
+    RecyclerviewAdaptor recyclerviewAdaptorHand;
 
+    ConstraintLayout layout_submit; // the layout where the dragged card is dropped
+
+    // for displaying of playArea
     ArrayList<String> playArea;
-    ListView listView_playArea;
-    ArrayAdapter<String> arrayAdapterPlayArea;
+    public static RecyclerView recyclerViewPlayArea;
+    RecyclerviewAdaptor recyclerviewAdapterPlayArea;
 
     // for storing of player-score info
     public static HashMap<String, Integer> scoreMap = new HashMap<>();
 
     Socket socket;
-    boolean isVoter; // boolean to determine if the player is a voter or an answerer. Will change depending on info received by socket.
-    boolean canAnswer; // if true, means answerers still got time to pick an answer from their hand. else, no more time to pick an answer from hand.
+    public static boolean isVoter; // boolean to determine if the player is a voter or an answerer. Will change depending on info received by socket.
+    public static boolean canAnswer; // if true, means answerers still got time to pick an answer from their hand. else, no more time to pick an answer from hand.
+    public static boolean canVote;
     public static int score = 0;
     public static int round = 1;
-
-    Button btn_submit;
 
     // ======================== END OF GLOBAL VARIABLES ====================================== //
 
@@ -86,10 +80,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        playgroundBanner = findViewById(R.id.textView_playArea2);
-        winningCard = findViewById(R.id.winningCard);
-        winningCard.setVisibility(View.INVISIBLE);
-
         textView_status = findViewById(R.id.textView_status); // initialise status textView
         textView_question = findViewById(R.id.textView_question); // initialise question box textView
         textView_timer = findViewById(R.id.textView_timer); // initialise timer textView
@@ -97,42 +87,36 @@ public class MainActivity extends Activity {
         textView_score.setText(Integer.toString(score));
         textView_round = findViewById(R.id.textView_round);// initialise round textView
         textView_round.setText(Integer.toString(round));
+        textView_annoucement = findViewById(R.id.textView_Annoucement); // initialise the annoucement textView
+        textView_area = findViewById(R.id.textView_area); // initialise the playArea textView
+        textView_playerName = findViewById(R.id.textView_playerName); // display of player name
+        textView_playerName.setText(JoinGame.userName);
 
-        chosenCard = Optional.empty(); // If answerer, this Optional will store the answer card chosen from hand. If voter, this Optional will store the card voted from play area.
-
-        // Initialise the playerInfo layout
-        playerListLayout = findViewById(R.id.playerListLayout);
-        playerListview = findViewById(R.id.playerListview);
-        bttn_backToMain = findViewById(R.id.bttn_backToMain);
-        playerListLayout.setVisibility(View.INVISIBLE);
-        playerList = new ArrayList<>();
-        arrayAdapterPlayers = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, playerList);
-        playerListview.setAdapter(arrayAdapterPlayers);
+        playerList = new ArrayList<>(); // initialise the player name arraylist
 
         // Display hand in client
         hand = new ArrayList<>();
-        listView_answers = findViewById(R.id.listView_answers);
-        arrayAdapterHand = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, hand);
-        listView_answers.setAdapter(arrayAdapterHand);
-        listView_answers.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE); // only allow answerer to select one card at a time
-        listView_answers.setOnItemClickListener((parent, view, position, id) -> {
-            chosenCard = Optional.ofNullable(hand.get(position)); // update the chosenCard Optional with the selected card
-        });
+        recyclerViewHand = findViewById(R.id.recyclerView_hands);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        recyclerViewHand.setLayoutManager(layoutManager);
+        recyclerviewAdaptorHand = new RecyclerviewAdaptor(this, hand);
+        recyclerViewHand.setAdapter(recyclerviewAdaptorHand);
+        recyclerViewHand.setOnDragListener(new DragListener());
+
+        layout_submit = findViewById(R.id.layout_submit);
+        layout_submit.setOnDragListener(new DragListener());
 
         // Display play area in client
         playArea = new ArrayList<>();
-        listView_playArea = findViewById(R.id.listView_playArea);
-        arrayAdapterPlayArea = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, playArea);
-        listView_playArea.setAdapter(arrayAdapterPlayArea);
-        listView_playArea.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE); // only allow voter to select one card at a time
-        listView_playArea.setOnItemClickListener((parent, view, position, id) -> {
-            chosenCard = Optional.ofNullable(playArea.get(position)); // update the chosenCard Optional with the voted card
-        });
+        recyclerViewPlayArea = findViewById(R.id.recyclerView_playArea);
+        LinearLayoutManager layoutManagerArea = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        recyclerViewPlayArea.setLayoutManager(layoutManagerArea);
+        recyclerviewAdapterPlayArea = new RecyclerviewAdaptor(this, playArea);
+        recyclerViewPlayArea.setAdapter(recyclerviewAdapterPlayArea);
+        recyclerViewPlayArea.setOnDragListener(new DragListener());
 
         isVoter = false; // initialise as an answerer until client is assigned as a voter
-        canAnswer = true; // client still has time to be able to choose the answer card
-
-        btn_submit = findViewById(R.id.btn_submit);
+        canAnswer = false; // client still has time to be able to choose the answer card
 
         try {
             socket = JoinGame.socket;
@@ -140,6 +124,7 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             Toast.makeText(MainActivity.this, e.getMessage() + "", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     // ======================== END OF ONCREATE FUNCTION ====================================== //
@@ -185,7 +170,6 @@ public class MainActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         textView_question.setText(myArgs[0].toString()); // changes the question textView to the question card dealt to everyone
                     }
                 });
@@ -210,7 +194,7 @@ public class MainActivity extends Activity {
                                 e.printStackTrace();
                             }
                         }
-                        arrayAdapterHand.notifyDataSetChanged();
+                        recyclerviewAdaptorHand.notifyDataSetChanged();
                     }
                 });
             }
@@ -227,7 +211,7 @@ public class MainActivity extends Activity {
                         int timeLeftSeconds = Integer.parseInt(args[0].toString());
                         int minutes = timeLeftSeconds / 60;
                         int seconds = timeLeftSeconds % 60;
-                        textView_timer.setText("Answer: " + String.format("%02d:%02d", minutes, seconds));
+                        textView_timer.setText(String.format("%02d:%02d", minutes, seconds));
                     }
                 });
             }
@@ -244,7 +228,7 @@ public class MainActivity extends Activity {
                         int timeLeftSeconds = Integer.parseInt(args[0].toString());
                         int minutes = timeLeftSeconds / 60;
                         int seconds = timeLeftSeconds % 60;
-                        textView_timer.setText("Vote: " + String.format("%02d:%02d", minutes, seconds));
+                        textView_timer.setText(String.format("%02d:%02d", minutes, seconds));
                     }
                 });
             }
@@ -261,7 +245,8 @@ public class MainActivity extends Activity {
                         int timeLeftSeconds = Integer.parseInt(args[0].toString());
                         int minutes = timeLeftSeconds / 60;
                         int seconds = timeLeftSeconds % 60;
-                        textView_timer.setText("Rest: " + String.format("%02d:%02d", minutes, seconds));
+                        textView_status.setText("REST");
+                        textView_timer.setText(String.format("%02d:%02d", minutes, seconds));
                     }
                 });
             }
@@ -275,8 +260,6 @@ public class MainActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        playgroundBanner.setText("Cards in Play");
-                        winningCard.setVisibility(View.INVISIBLE);
                         playArea.clear(); // same method as the updating of hand cards
                         for (int card = 0; card < jArray.length(); card++) {
                             try {
@@ -288,10 +271,8 @@ public class MainActivity extends Activity {
                         }
                         Collections.sort(playArea); // Shuffle the cards just by sorting.
                         if (canAnswer) {  // Round has not ended, make the cards hidden
-                            listView_playArea.setBackgroundColor(Color.parseColor("#000000")); // just my way of making the cards hidden. Change this code to whatever u want to make the cards hidden
                         }
-
-                        arrayAdapterPlayArea.notifyDataSetChanged();
+                        recyclerviewAdapterPlayArea.notifyDataSetChanged();
                     }
                 });
             }
@@ -322,12 +303,6 @@ public class MainActivity extends Activity {
                             }
                         }
                         Collections.sort(playArea); // Shuffle the cards just by sorting.
-                        if (canAnswer) {  // Round has not ended, make the cards hidden
-                            listView_playArea.setBackgroundColor(Color.parseColor("#000000")); // just my way of making the cards hidden. Change this code to whatever u want to make the cards hidden
-                        }
-
-                        arrayAdapterPlayers.notifyDataSetChanged();
-                        arrayAdapterPlayArea.notifyDataSetChanged();
                     }
                 });
             }
@@ -355,11 +330,13 @@ public class MainActivity extends Activity {
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void run() {
-                        chosenCard = Optional.empty(); // so that players cannot submit anything even if they press the submit button
+                        canVote = true; // voter allowed to vote a card
+                        if (isVoter) {
+                            textView_annoucement.setText("Please cast your vote");
+                        } else {
+                            textView_annoucement.setText("Please wait for vote to cast the vote");
+                        }
                         canAnswer = false; // players not allowed to answer or choose a card from the hand anymore
-                        listView_answers.setEnabled(false); // disallow players from selecting anything in their hand once no more answering
-                        listView_playArea.setEnabled(true); // after players cannot answer anymore, voter can then vote on the best card in the play area
-                        listView_playArea.setBackgroundColor(Color.parseColor("#FFFFFF")); // Again, just my way of making the cards visible. Change this code to whatever u want
                     }
                 });
             }
@@ -380,22 +357,15 @@ public class MainActivity extends Activity {
                             String winnerName = jArray.get(0).toString();
                             String winningAns = jArray.get(1).toString();
                             if (winnerName.equals(JoinGame.userName)) {
-                                Toast.makeText(getApplicationContext(), "You won!", Toast.LENGTH_SHORT).show();
+                                textView_annoucement.setText("You won! Points +1!");
                             } else {
-                                Toast.makeText(getApplicationContext(), jArray.get(0).toString() + " played the winning card: " + jArray.get(1).toString(), Toast.LENGTH_SHORT).show();
+                                textView_annoucement.setText(jArray.get(0).toString() + " played the winning card: " + jArray.get(1).toString());
                             }
-
-                            playgroundBanner.setText("Winner: " + winnerName);
-                            winningCard.setText(winningAns);
-                            winningCard.setVisibility(View.VISIBLE);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 });
-
-
-
             }
         });
 
@@ -428,7 +398,7 @@ public class MainActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        socket.disconnect(); // player leaves the game after a game ends
+                        //socket.disconnect(); // player leaves the game after a game ends
                         startActivity(new Intent(getApplicationContext(), gameEnded.class));
                     }
                 });
@@ -443,7 +413,6 @@ public class MainActivity extends Activity {
                     @Override
                     public void run() {
                         try {
-
                             String message = (String) args[0];
                             Log.i("Message:   ", message);
                             Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
@@ -474,64 +443,34 @@ public class MainActivity extends Activity {
 
     // ======================== START OF HELPER FUNCTIONS ====================================== //
     public void updateInterface(boolean isVoter) {
-        canAnswer = true; // allow players to be able to select an ans
+        layout_submit.removeAllViews();
         if (isVoter) {
-            textView_status.setText("VOTER");
-            btn_submit.setText("Vote this card!");
-            listView_answers.setEnabled(false); // don't allow voter to play a card from their hand at all.
-            listView_playArea.setEnabled(false); // don't allow voter to choose a card from playArea straightaway. Wait for everyone to play their card first.
-            btn_submit.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.N)
-                @Override
-                public void onClick(View v) { // if voter, deal with listView_playArea
-                    // deal with this after you handle the answerer side
-                    chosenCard.ifPresent(votedAnswer -> {
-                        try {
-                            JSONObject votedInfo = new JSONObject();
-                            votedInfo.put("roomName", JoinGame.roomName);
-                            votedInfo.put("votedAnswer", votedAnswer);
-                            socket.emit("voterHasVoted", votedInfo);
-                            listView_playArea.setEnabled(false); // don't let the voter vote for another card once they have
-                            chosenCard = Optional.empty(); // empty the chosenCard variable so cannot submit anything when button is clicked again
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-            });
+            textView_status.setText("Captain");
+            recyclerViewPlayArea.setVisibility(View.VISIBLE);
+            recyclerViewHand.setVisibility(View.INVISIBLE);
+            textView_annoucement.setText("Please wait for all players to submit their cards.");
+            textView_area.setText("Play Area");
         } else {
-            textView_status.setText("ANSWERER");
-            btn_submit.setText("Pick this card!");
-            listView_answers.setEnabled(true); // allow answerer to choose a card
-            btn_submit.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.N)
-                @Override
-                public void onClick(View v) { // if answerer, deal with listView_answers
-                    chosenCard.ifPresent(answer -> {
-                        try {
-                            // Store both roomName and the answer string into a JSONObject to be passed to the server
-                            JSONObject answerInfo = new JSONObject();
-                            answerInfo.put("answerString", answer);
-                            answerInfo.put("roomName", JoinGame.roomName);
-                            socket.emit("selectAnswer", answerInfo); // emit the answer string back to server
-                            listView_answers.setEnabled(false); // don't let the answerer play another card once they have chosen a card
-                            chosenCard = Optional.empty(); // empty the chosenCard variable so cannot submit anything when button is clicked again
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-
-                }
-            });
+            canAnswer = true;
+            textView_status.setText("Crew");
+            recyclerViewPlayArea.setVisibility(View.INVISIBLE);
+            recyclerViewHand.setVisibility(View.VISIBLE);
+            textView_annoucement.setText("Drag and drop your chosen card!");
+            textView_area.setText("Your Hands");
         }
     }
 
-    public void backToMain(View view) {// to set the playerInfo page invisible
-        playerListLayout.setVisibility(View.INVISIBLE);
-    }
-
-    public void evokeInfo(View view) {// to bring out the playerInfo page
-        playerListLayout.setVisibility(View.VISIBLE);
+    // setting up and calling the pop-up windown displaying player names and scores when button is pressed
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void initPlayerListPop(View view) {
+        ListPopupWindow playerListPop = new ListPopupWindow(getApplicationContext());
+        playerListPop.setAdapter(new ArrayAdapter<>(getApplication(), R.layout.playerlist_popup_layout, playerList));
+        playerListPop.setAnchorView(view);
+        Drawable drawable = getResources().getDrawable(R.drawable.playerlist_background, getApplicationContext().getTheme());
+        playerListPop.setBackgroundDrawable(drawable);
+        playerListPop.setWidth(500);
+        playerListPop.setHeight(600);
+        playerListPop.show();
     }
 
     // Overriding the back button to disconnect when it is clicked

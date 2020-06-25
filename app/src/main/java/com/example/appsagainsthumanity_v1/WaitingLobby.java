@@ -46,12 +46,12 @@ public class WaitingLobby extends AppCompatActivity {
         setContentView(R.layout.activity_waiting_lobby);
 
         TextView roomNameDisplay = findViewById(R.id.roomNameDisplay);// display of playernames of the current room
-        roomNameDisplay.setText("Room: " + JoinGame.roomName);
+        roomNameDisplay.setText(JoinGame.roomName);
 
         bttn_start = findViewById(R.id.bttn_start);// initialise the start game button
         playerList = findViewById(R.id.playerList);// initialise the player listview
         socket = JoinGame.socket;// obtain the connected socket from the previous activity
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, playerNames);
+        arrayAdapter = new ArrayAdapter<>(this, R.layout.lobbylistviewlayout, playerNames);
         playerList.setAdapter(arrayAdapter);
 
         // request for update of player and room attribute info upon creation of this activity

@@ -95,19 +95,22 @@ public class gameEnded extends AppCompatActivity {
      */
 
     public void playAgain(View view) { // when player decides to play again in the current room.
-        try {
-            socket.connect(); // connect the player back to the game
-            JSONObject userInfo = new JSONObject();
-            userInfo.put("RoomID", roomName);
-            userInfo.put("Username", userName);
-            socket.emit("joinRoom", userInfo); // adds the player to the same room of previous round
-        } catch (Exception e) {
-            Toast.makeText(this, e.getMessage() + "", Toast.LENGTH_SHORT).show();
-        }
+//        try {
+//            socket.connect(); // connect the player back to the game
+//            JSONObject userInfo = new JSONObject();
+//            userInfo.put("RoomID", roomName);
+//            userInfo.put("Username", userName);
+//            socket.emit("joinRoom", userInfo); // adds the player to the same room of previous round
+//        } catch (Exception e) {
+//            Toast.makeText(this, e.getMessage() + "", Toast.LENGTH_SHORT).show();
+//        }
         startActivity(new Intent(getApplicationContext(), WaitingLobby.class));
     }
 
     public void quitRoom(View view) {
+        // gets server to check if all the players have left the room
+        socket.emit("checkRmEmpty", roomName);
+        socket.disconnect();
         // erase local room and player attributes
         JoinGame.userName = "";
         JoinGame.roomName = "";
