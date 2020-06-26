@@ -107,10 +107,10 @@ public class customizeRoom extends AppCompatActivity {
 
     // display the editTexts with the default numerical values
     public void defaultChanges(View view) {
-        roundDuration.setText(roundTime);
-        restDuration.setText(restTime);
-        maxHands.setText(maxHand);
-        maxRounds.setText(maxRound);
+        roundDuration.setText(Integer.toString(roundTime));
+        restDuration.setText(Integer.toString(restTime));
+        maxHands.setText(Integer.toString(maxHand));
+        maxRounds.setText(Integer.toString(maxRound));
     }
     // ======================== END OF HELPER FUNCTIONS ====================================== //
 }

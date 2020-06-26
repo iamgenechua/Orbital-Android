@@ -334,7 +334,7 @@ public class MainActivity extends Activity {
                         if (isVoter) {
                             textView_annoucement.setText("Please cast your vote");
                         } else {
-                            textView_annoucement.setText("Please wait for vote to cast the vote");
+                            textView_annoucement.setText("Waiting for Captain to make the decision");
                         }
                         canAnswer = false; // players not allowed to answer or choose a card from the hand anymore
                     }
@@ -448,11 +448,11 @@ public class MainActivity extends Activity {
             textView_status.setText("Captain");
             recyclerViewPlayArea.setVisibility(View.VISIBLE);
             recyclerViewHand.setVisibility(View.INVISIBLE);
-            textView_annoucement.setText("Please wait for all players to submit their cards.");
-            textView_area.setText("Play Area");
+            textView_annoucement.setText("Please wait for all crews to submit their cards.");
+            textView_area.setText("Battle Ground");
         } else {
             canAnswer = true;
-            textView_status.setText("Crew");
+            textView_status.setText("Battle Ground");
             recyclerViewPlayArea.setVisibility(View.INVISIBLE);
             recyclerViewHand.setVisibility(View.VISIBLE);
             textView_annoucement.setText("Drag and drop your chosen card!");
