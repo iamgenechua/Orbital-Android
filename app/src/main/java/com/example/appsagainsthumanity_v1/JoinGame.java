@@ -1,8 +1,10 @@
 package com.example.appsagainsthumanity_v1;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -21,9 +23,10 @@ public class JoinGame extends AppCompatActivity {
 
     // ======================== START OF GLOBAL VARIABLES ====================================== //
     // initialise public static variables
-    public static Socket socket;// this maintains connection throughout the duration
-    public static String roomName;// name of the room
-    public static String userName;// name of the player
+    public static Socket socket; // this maintains connection throughout the duration
+    public static String roomName; // name of the room
+    public static String userName; // name of the player
+    public static boolean joinButtonPressed; // boolean if join Button has been pressed
 
     // initialise views
     EditText roomEntry;
@@ -40,6 +43,8 @@ public class JoinGame extends AppCompatActivity {
         // initialise the two editTexts
         roomEntry = findViewById(R.id.roomEntry);
         nameEntry = findViewById(R.id.nameEntry);
+
+        joinButtonPressed = false; // joinButton is not pressed upon creation
     }
     // ======================== END OF ONCREATE FUNCTION ===============================A======= //
 
@@ -53,11 +58,12 @@ public class JoinGame extends AppCompatActivity {
 
         if (roomName.equals("")  || userName.equals("")) {// check if the player has entered a room name and player name
             // do not proceed if user never key in anything
-        } else {
+        } else if (joinButtonPressed == false) {
             // Connect to Socket Server
             try {
-//                socket = IO.socket("http://10.0.2.2:3000"); // for testing purpose
-                socket = IO.socket("https://orbitalhumanity.herokuapp.com/");
+                joinButtonPressed = true; // make boolean true to prevent multiple connection arising from multiple presses of button
+                socket = IO.socket("http://10.0.2.2:3000"); // for testing purpose
+//                socket = IO.socket("https://orbitalhumanity.herokuapp.com/");
                 socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
@@ -121,5 +127,20 @@ public class JoinGame extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        joinButtonPressed = false; // reset joinButtonPressed to false so that join game can be pressed again
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+        finish();
+    }
+
     // ======================== END OF HELPER FUNCTIONS ====================================== //
 }

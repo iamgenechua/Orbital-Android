@@ -452,7 +452,7 @@ public class MainActivity extends Activity {
             textView_area.setText("Battle Ground");
         } else {
             canAnswer = true;
-            textView_status.setText("Battle Ground");
+            textView_status.setText("Crew");
             recyclerViewPlayArea.setVisibility(View.INVISIBLE);
             recyclerViewHand.setVisibility(View.VISIBLE);
             textView_annoucement.setText("Drag and drop your chosen card!");

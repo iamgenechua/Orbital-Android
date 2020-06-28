@@ -135,6 +135,11 @@ public class WaitingLobby extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         socket.disconnect(); // emits disconnection when player clicks back button
+
+        // jump straight to the join game screen
+        Intent intent = new Intent(getApplicationContext(), JoinGame.class);
+        startActivity(intent);
+
         super.onBackPressed();
     }
 
