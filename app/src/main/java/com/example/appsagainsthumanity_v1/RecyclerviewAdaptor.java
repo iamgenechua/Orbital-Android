@@ -47,7 +47,6 @@ public class RecyclerviewAdaptor extends RecyclerView.Adapter<RecyclerviewAdapto
         holder.textView.setText(textEntry.get(position));
         holder.constraintLayout.setTag(position);
         holder.constraintLayout.setOnLongClickListener(this);
-        holder.constraintLayout.setOnDragListener(new DragListener());
     }
 
     @Override

@@ -135,7 +135,6 @@ public class MainActivity extends Activity {
         recyclerViewHand.setLayoutManager(layoutManager);
         recyclerviewAdaptorHand = new RecyclerviewAdaptor(this, hand);
         recyclerViewHand.setAdapter(recyclerviewAdaptorHand);
-        recyclerViewHand.setOnDragListener(new DragListener());
         recyclerViewHand.setHasFixedSize(true);
         recyclerViewHand.setItemViewCacheSize(20);
         recyclerViewHand.setDrawingCacheEnabled(true);
@@ -151,7 +150,6 @@ public class MainActivity extends Activity {
         recyclerViewPlayArea.setLayoutManager(layoutManagerArea);
         recyclerviewAdapterPlayArea = new RecyclerviewAdaptor(this, playArea);
         recyclerViewPlayArea.setAdapter(recyclerviewAdapterPlayArea);
-        recyclerViewPlayArea.setOnDragListener(new DragListener());
 
         isVoter = false; // initialise as an answerer until client is assigned as a voter
         canAnswer = false; // client still has time to be able to choose the answer card
