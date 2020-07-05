@@ -4,172 +4,143 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#120320"
+    android:background="@drawable/end_bg"
     tools:context=".gameEnded">
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="46dp"
-        android:layout_marginLeft="46dp"
-        android:layout_marginTop="67dp"
-        android:layout_marginEnd="82dp"
-        android:layout_marginRight="82dp"
-        android:layout_marginBottom="20dp"
-        android:text="Your Score"
-        android:textColor="#FFEB3B"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:fontFamily="sans-serif-smallcaps"
-        app:layout_constraintBottom_toTopOf="@+id/textView13"
-        app:layout_constraintEnd_toStartOf="@+id/scoreTextview"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Rounds"
-        android:textColor="#FFEB3B"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:fontFamily="sans-serif-smallcaps"
-        app:layout_constraintStart_toStartOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="0dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="41dp"
-        android:gravity="center"
-        android:text="ranking"
-        android:textColor="#F44336"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:fontFamily="sans-serif-smallcaps"
-        app:layout_constraintStart_toStartOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:gravity="center"
-        android:text="name"
-        android:textColor="#F44336"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:fontFamily="sans-serif-smallcaps"
-        app:layout_constraintBottom_toBottomOf="@+id/textView16"
-        app:layout_constraintStart_toEndOf="@+id/textView16" />
-
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:gravity="center"
-        android:text="score"
-        android:textColor="#F44336"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:fontFamily="sans-serif-smallcaps"
-        app:layout_constraintBottom_toBottomOf="@+id/textView16"
-        app:layout_constraintStart_toEndOf="@+id/textView17" />
 
     <TextView
         android:id="@+id/scoreTextview"
         android:layout_width="85dp"
         android:layout_height="53dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginRight="26dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
         android:background="@drawable/entryboxbg"
         android:gravity="center"
         android:text="20"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textView9"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/roundsTextview"
         android:layout_width="85dp"
         android:layout_height="53dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
         android:background="@drawable/entryboxbg"
         android:gravity="center"
         android:text="20"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textView13"
-        app:layout_constraintEnd_toEndOf="@+id/scoreTextview" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreTextview" />
 
     <ListView
         android:id="@+id/rankingListview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/textView16"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="@+id/imageView11"
+        app:layout_constraintTop_toBottomOf="@+id/imageView11" />
 
     <ListView
         android:id="@+id/nameListview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="@+id/imageView10"
+        app:layout_constraintTop_toTopOf="@+id/rankingListview" />
 
     <ListView
         android:id="@+id/scoreListview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="@+id/imageView13"
+        app:layout_constraintTop_toBottomOf="@+id/imageView13" />
 
-    <Button
-        android:id="@+id/playAgaBttn"
-        android:layout_width="230dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="109dp"
-        android:layout_marginLeft="109dp"
-        android:layout_marginEnd="109dp"
-        android:layout_marginRight="109dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/greybuttonbg"
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="91dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="130dp"
+        android:src="@drawable/end_name"
+        app:layout_constraintStart_toEndOf="@+id/imageView11"
+        app:layout_constraintTop_toBottomOf="@+id/imageView14" />
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="119dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="77dp"
+        android:src="@drawable/end_ranking"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView12" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="156dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="13dp"
+        android:src="@drawable/end_rounds"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView14" />
+
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="81dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:src="@drawable/end_score"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roundsTextview" />
+
+    <ImageView
+        android:id="@+id/imageView14"
+        android:layout_width="207dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="67dp"
+        android:src="@drawable/end_yourscore"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="120dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="73dp"
+        android:layout_marginLeft="73dp"
+        android:layout_marginBottom="83dp"
         android:onClick="playAgain"
-        android:text="Play again!"
-        app:layout_constraintBottom_toTopOf="@+id/quitRmBttn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
+        android:src="@drawable/end_bttn_palyagain"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/quitRmBttn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="109dp"
-        android:layout_marginLeft="109dp"
-        android:layout_marginEnd="109dp"
-        android:layout_marginRight="109dp"
-        android:layout_marginBottom="50dp"
-        android:width="230dp"
-        android:height="49dp"
-        android:background="@drawable/entryboxbg"
+    <ImageView
+        android:id="@+id/imageView16"
+        android:layout_width="120dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="57dp"
+        android:layout_marginRight="57dp"
+        android:layout_marginBottom="83dp"
         android:onClick="quitRoom"
-        android:text="Quit room"
+        android:src="@drawable/end_bttn_quit"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

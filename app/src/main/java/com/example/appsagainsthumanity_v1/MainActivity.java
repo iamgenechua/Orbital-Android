@@ -2,6 +2,7 @@ package com.example.appsagainsthumanity_v1;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +38,6 @@ import io.socket.emitter.Emitter;
 public class MainActivity extends Activity {
 
     // ======================== START OF GLOBAL VARIABLES ====================================== //
-    TextView textView_status;
     TextView textView_question;
     TextView textView_timer;
     TextView textView_score;
@@ -44,6 +45,7 @@ public class MainActivity extends Activity {
     TextView textView_playerName;
     public static TextView textView_annoucement;
     public static TextView textView_area;
+    View decorView; // for hiding of status and navigation bars
 
     // for displaying of player-info
     public static ArrayList<String> playerList; // a list with all player names
@@ -63,6 +65,19 @@ public class MainActivity extends Activity {
     // for storing of player-score info
     public static HashMap<String, Integer> scoreMap = new HashMap<>();
 
+    // for displaying of winner info
+    CardView cardview_winning;
+    TextView textView_winningAns;
+    TextView textView_winnerName;
+
+    // for the banner of battefield/yourcards above recyclerview
+    ImageView imageView_hands;
+    ImageView imageView_battlefield;
+
+    // for banner display of captain/crew
+    ImageView imageView_captain;
+    ImageView imageView_crew;
+
     Socket socket;
     public static boolean isVoter; // boolean to determine if the player is a voter or an answerer. Will change depending on info received by socket.
     public static boolean canAnswer; // if true, means answerers still got time to pick an answer from their hand. else, no more time to pick an answer from hand.
@@ -79,8 +94,16 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
 
-        textView_status = findViewById(R.id.textView_status); // initialise status textView
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if (visibility == 0)
+                    decorView.setSystemUiVisibility(hideSystemBars());
+            }
+        });
+
         textView_question = findViewById(R.id.textView_question); // initialise question box textView
         textView_timer = findViewById(R.id.textView_timer); // initialise timer textView
         textView_score = findViewById(R.id.textView_score);// initialise score textView
@@ -88,11 +111,22 @@ public class MainActivity extends Activity {
         textView_round = findViewById(R.id.textView_round);// initialise round textView
         textView_round.setText(Integer.toString(round));
         textView_annoucement = findViewById(R.id.textView_Annoucement); // initialise the annoucement textView
-        textView_area = findViewById(R.id.textView_area); // initialise the playArea textView
         textView_playerName = findViewById(R.id.textView_playerName); // display of player name
         textView_playerName.setText(JoinGame.userName);
 
+        // initialise display of winning card
+        cardview_winning = findViewById(R.id.cardview_winning);
+        textView_winningAns = findViewById(R.id.textView_winningAns);
+        textView_winnerName = findViewById(R.id.textView_winnerName);
+        cardview_winning.setVisibility(View.INVISIBLE);
+
         playerList = new ArrayList<>(); // initialise the player name arraylist
+
+        imageView_battlefield = findViewById(R.id.imageView_battlefield);
+        imageView_hands = findViewById(R.id.imageView_hands);
+
+        imageView_crew = findViewById(R.id.imageView_crew);
+        imageView_captain = findViewById(R.id.imageView_captain);
 
         // Display hand in client
         hand = new ArrayList<>();
@@ -102,6 +136,10 @@ public class MainActivity extends Activity {
         recyclerviewAdaptorHand = new RecyclerviewAdaptor(this, hand);
         recyclerViewHand.setAdapter(recyclerviewAdaptorHand);
         recyclerViewHand.setOnDragListener(new DragListener());
+        recyclerViewHand.setHasFixedSize(true);
+        recyclerViewHand.setItemViewCacheSize(20);
+        recyclerViewHand.setDrawingCacheEnabled(true);
+        recyclerViewHand.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
 
         layout_submit = findViewById(R.id.layout_submit);
         layout_submit.setOnDragListener(new DragListener());
@@ -245,7 +283,6 @@ public class MainActivity extends Activity {
                         int timeLeftSeconds = Integer.parseInt(args[0].toString());
                         int minutes = timeLeftSeconds / 60;
                         int seconds = timeLeftSeconds % 60;
-                        textView_status.setText("REST");
                         textView_timer.setText(String.format("%02d:%02d", minutes, seconds));
                     }
                 });
@@ -270,8 +307,6 @@ public class MainActivity extends Activity {
                             }
                         }
                         Collections.sort(playArea); // Shuffle the cards just by sorting.
-                        if (canAnswer) {  // Round has not ended, make the cards hidden
-                        }
                         recyclerviewAdapterPlayArea.notifyDataSetChanged();
                     }
                 });
@@ -356,10 +391,13 @@ public class MainActivity extends Activity {
                             // jArray.get(1) <-- gets the winning card chosen by the voter
                             String winnerName = jArray.get(0).toString();
                             String winningAns = jArray.get(1).toString();
+                            textView_winnerName.setText(winnerName);
+                            textView_winningAns.setText(winningAns);
+                            cardview_winning.setVisibility(View.VISIBLE);
                             if (winnerName.equals(JoinGame.userName)) {
-                                textView_annoucement.setText("You won! Points +1!");
+                                textView_annoucement.setText("You won! Points +1!\nThe next round is starting soon.");
                             } else {
-                                textView_annoucement.setText(jArray.get(0).toString() + " played the winning card: " + jArray.get(1).toString());
+                                textView_annoucement.setText(jArray.get(0).toString() + " won!\nThe next round is starting soon.");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -432,7 +470,7 @@ public class MainActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        textView_status.setText("DISCONNECTED");
+                        textView_annoucement.setText("DISCONNECTED");
                     }
                 });
             }
@@ -444,19 +482,24 @@ public class MainActivity extends Activity {
     // ======================== START OF HELPER FUNCTIONS ====================================== //
     public void updateInterface(boolean isVoter) {
         layout_submit.removeAllViews();
+        cardview_winning.setVisibility(View.INVISIBLE);
         if (isVoter) {
-            textView_status.setText("Captain");
+            imageView_captain.setVisibility(View.VISIBLE);
+            imageView_crew.setVisibility(View.INVISIBLE);
             recyclerViewPlayArea.setVisibility(View.VISIBLE);
             recyclerViewHand.setVisibility(View.INVISIBLE);
             textView_annoucement.setText("Please wait for all crews to submit their cards.");
-            textView_area.setText("Battle Ground");
+            imageView_hands.setVisibility(View.INVISIBLE);
+            imageView_battlefield.setVisibility(View.VISIBLE);
         } else {
             canAnswer = true;
-            textView_status.setText("Crew");
+            imageView_captain.setVisibility(View.INVISIBLE);
+            imageView_crew.setVisibility(View.VISIBLE);
             recyclerViewPlayArea.setVisibility(View.INVISIBLE);
             recyclerViewHand.setVisibility(View.VISIBLE);
             textView_annoucement.setText("Drag and drop your chosen card!");
-            textView_area.setText("Your Hands");
+            imageView_hands.setVisibility(View.VISIBLE);
+            imageView_battlefield.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -483,6 +526,23 @@ public class MainActivity extends Activity {
         startActivity(intent);
 
         super.onBackPressed();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            decorView.setSystemUiVisibility(hideSystemBars());
+        }
+    }
+
+    int hideSystemBars() {
+        return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
     }
 
     // ======================== END OF HELPER FUNCTIONS ====================================== //

@@ -4,24 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#120320">
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginBottom="57dp"
-        android:text="Room Settings"
-        android:textColor="#FBF137"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/editText1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:background="@drawable/setting_bg">
 
     <TextView
         android:id="@+id/textView1"
@@ -29,64 +12,62 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginLeft="28dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginRight="55dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginTop="39dp"
         android:text="Round Duration"
         android:textColor="#ED5E36"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView12"
-        app:layout_constraintEnd_toStartOf="@+id/editText1"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
         android:text="Duration of voting/answering"
         android:textColor="#737FAC"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText2"
-        app:layout_constraintStart_toStartOf="@+id/textView1"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText1" />
 
     <TextView
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="33dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
         android:text="Duration of resting between each round"
         android:textColor="#737FAC"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText3"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText2" />
 
     <TextView
         android:id="@+id/textView32"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="31dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="2dp"
         android:text="Maximum number of cards"
         android:textColor="#737FAC"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText4"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/textView42"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="79dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
         android:text="Maximum number of game rounds"
         android:textColor="#737FAC"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView2"
@@ -94,15 +75,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginLeft="28dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginRight="44dp"
+        android:layout_marginTop="48dp"
         android:text="Interval Duration"
         android:textColor="#ED5E36"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView22"
-        app:layout_constraintEnd_toStartOf="@+id/editText2"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <TextView
         android:id="@+id/textView3"
@@ -110,16 +89,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginLeft="28dp"
-        android:layout_marginEnd="37dp"
-        android:layout_marginRight="37dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginTop="45dp"
         android:text="Number of hands"
         android:textColor="#ED5E36"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView32"
-        app:layout_constraintEnd_toStartOf="@+id/editText3"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
     <TextView
         android:id="@+id/textView4"
@@ -127,121 +103,87 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginLeft="28dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginTop="44dp"
         android:text="Number of rounds"
         android:textColor="#ED5E36"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView42"
-        app:layout_constraintEnd_toStartOf="@+id/editText4"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView32" />
 
     <EditText
         android:id="@+id/editText1"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="130dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="27dp"
         android:layout_marginEnd="31dp"
         android:layout_marginRight="31dp"
-        android:layout_marginBottom="1dp"
+        android:background="@drawable/entryboxbg"
         android:ems="10"
         android:gravity="center"
         android:inputType="number"
         android:text="Name"
-        android:background="@drawable/entryboxbg"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView1"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <EditText
         android:id="@+id/editText2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="129dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="37dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
+        android:background="@drawable/entryboxbg"
         android:ems="10"
         android:gravity="center"
         android:inputType="number"
         android:text="Name"
-        android:background="@drawable/entryboxbg"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView22"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <EditText
         android:id="@+id/editText3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="1dp"
+        android:layout_width="130dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginRight="29dp"
+        android:background="@drawable/entryboxbg"
         android:ems="10"
         android:gravity="center"
         android:inputType="number"
         android:text="Name"
-        android:background="@drawable/entryboxbg"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView32"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
     <EditText
         android:id="@+id/editText4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="129dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="2dp"
+        android:background="@drawable/entryboxbg"
         android:ems="10"
         android:gravity="center"
         android:inputType="number"
         android:text="Name"
-        android:background="@drawable/entryboxbg"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView42"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView32" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="11dp"
-        android:onClick="saveChanges"
-        android:text="save"
-        android:background="#ED5E36"
-        app:layout_constraintBottom_toTopOf="@+id/textViewDefault"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginBottom="11dp"
-        android:onClick="cancelChanges"
-        android:text="@android:string/cancel"
-        android:background="#FCBB58"
-        app:layout_constraintBottom_toTopOf="@+id/textViewDefault"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button2"
-        app:layout_constraintTop_toBottomOf="@+id/textView42" />
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
     <TextView
         android:id="@+id/textViewDefault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="42dp"
+        android:layout_marginStart="142dp"
+        android:layout_marginLeft="142dp"
+        android:layout_marginEnd="142dp"
+        android:layout_marginRight="142dp"
+        android:layout_marginBottom="41dp"
         android:clickable="true"
         android:onClick="defaultChanges"
         android:text="Default settings"
@@ -250,7 +192,44 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="329dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginRight="41dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/settings_logo" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="207dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="43dp"
+        android:onClick="saveChanges"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView42"
+        app:srcCompat="@drawable/setting_bttn_save" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="208dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="cancelChanges"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView42"
+        app:srcCompat="@drawable/setting_bttn_cancel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

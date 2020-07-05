@@ -31,6 +31,7 @@ public class JoinGame extends AppCompatActivity {
     // initialise views
     EditText roomEntry;
     EditText nameEntry;
+    View decorView; // for hiding of status and navigation bars
 
     // ======================== END OF GLOBAL VARIABLES ====================================== //
 
@@ -39,6 +40,16 @@ public class JoinGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_game);
+
+        decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if (visibility == 0)
+                    decorView.setSystemUiVisibility(hideSystemBars());
+            }
+        });
 
         // initialise the two editTexts
         roomEntry = findViewById(R.id.roomEntry);
@@ -140,6 +151,23 @@ public class JoinGame extends AppCompatActivity {
         super.onBackPressed();
         finishAffinity();
         finish();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            decorView.setSystemUiVisibility(hideSystemBars());
+        }
+    }
+
+    int hideSystemBars() {
+        return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
     }
 
     // ======================== END OF HELPER FUNCTIONS ====================================== //

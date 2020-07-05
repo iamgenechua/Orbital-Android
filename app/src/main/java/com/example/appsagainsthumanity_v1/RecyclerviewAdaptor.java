@@ -81,7 +81,7 @@ public class RecyclerviewAdaptor extends RecyclerView.Adapter<RecyclerviewAdapto
 
     // ======================== START OF HELPER CLASS ====================================== //
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout constraintLayout;
         TextView textView;
 

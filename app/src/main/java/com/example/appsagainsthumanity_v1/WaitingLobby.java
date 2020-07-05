@@ -33,8 +33,8 @@ public class WaitingLobby extends AppCompatActivity {
     public static ArrayAdapter<String> arrayAdapter;
 
     // initialise views
-    Button bttn_start;
     ListView playerList;
+    View decorView; // for hiding of status and navigation bars
 
     Socket socket;
     // ======================== END OF GLOBAL VARIABLES ====================================== //
@@ -44,11 +44,19 @@ public class WaitingLobby extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waiting_lobby);
+        decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if (visibility == 0)
+                    decorView.setSystemUiVisibility(hideSystemBars());
+            }
+        });
 
         TextView roomNameDisplay = findViewById(R.id.roomNameDisplay);// display of playernames of the current room
         roomNameDisplay.setText(JoinGame.roomName);
 
-        bttn_start = findViewById(R.id.bttn_start);// initialise the start game button
         playerList = findViewById(R.id.playerList);// initialise the player listview
         socket = JoinGame.socket;// obtain the connected socket from the previous activity
         arrayAdapter = new ArrayAdapter<>(this, R.layout.lobbylistviewlayout, playerNames);
@@ -145,6 +153,23 @@ public class WaitingLobby extends AppCompatActivity {
 
     public void editRoom(View view) { // leads to customizeRoom where player can edit room settings
         startActivity(new Intent(getApplicationContext(), customizeRoom.class));
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            decorView.setSystemUiVisibility(hideSystemBars());
+        }
+    }
+
+    int hideSystemBars() {
+        return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
     }
     // ======================== END OF HELPER FUNCTIONS ====================================== //
 }

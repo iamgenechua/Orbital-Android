@@ -69,7 +69,6 @@ public class DragListener implements View.OnDragListener { // this is a customiz
                         MainActivity.recyclerViewHand.setVisibility(View.INVISIBLE);
                         MainActivity.recyclerViewPlayArea.setVisibility(View.VISIBLE);
                         MainActivity.textView_annoucement.setText("Waiting for Captain to make the decision");
-                        MainActivity.textView_area.setText("Battle Ground");
                         // submit the answer string to the server
                         JSONObject answerInfo = new JSONObject();
                         answerInfo.put("answerString", ansString);
