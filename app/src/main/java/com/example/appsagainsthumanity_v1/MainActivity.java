@@ -157,6 +157,25 @@ public class MainActivity extends Activity {
         isVoter = false; // initialise as an answerer until client is assigned as a voter
         canAnswer = false; // client still has time to be able to choose the answer card
 
+        // initialise the quit button. To allow players to quit the game.
+        ImageView quitGameButton = (ImageView) findViewById(R.id.bttn_quit);
+        quitGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Quit Game")
+                        .setMessage("Are you sure you want to quit the game?")
+                        .setPositiveButton("Yes, Quit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                onBackPressed();
+                            } // triggers the back button when user wants to quit
+                        })
+                        .setNegativeButton("No, Stay", null) // null listener returns back to game if user clicks no
+                        .show();
+            }
+        });
+
         try {
             socket = JoinGame.socket;
             runGame();
@@ -421,7 +440,7 @@ public class MainActivity extends Activity {
                                 .setMessage("Please rejoin the game with another player(s) to play the game")
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        startActivity(new Intent(getApplicationContext(), JoinGame.class));
+                                        onBackPressed();
                                     }
                                 })
                                 .show();
