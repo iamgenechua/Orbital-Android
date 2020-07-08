@@ -31,6 +31,7 @@ public class WaitingLobby extends AppCompatActivity {
     public static JSONObject attributeBox; // a package of information regarding room settings to be received
     public static ArrayList<String> playerNames = new ArrayList<>(); // a list of all player names
     public static ArrayAdapter<String> arrayAdapter;
+    public static boolean startButtonPressed; // flag to check if the start button has been pressed
 
     // initialise views
     ListView playerList;
@@ -56,6 +57,7 @@ public class WaitingLobby extends AppCompatActivity {
 
         TextView roomNameDisplay = findViewById(R.id.roomNameDisplay);// display of playernames of the current room
         roomNameDisplay.setText(JoinGame.roomName);
+        startButtonPressed = false; // initialise start button pressed to false onCreate.
 
         playerList = findViewById(R.id.playerList);// initialise the player listview
         socket = JoinGame.socket;// obtain the connected socket from the previous activity
@@ -132,11 +134,16 @@ public class WaitingLobby extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        startButtonPressed = false; // reset startButtonPressed to false so that start game can be pressed again
         arrayAdapter.notifyDataSetChanged();
     }
 
     public void startGame(View view) {
-        socket.emit("startGameServer", JoinGame.roomName);
+        if (startButtonPressed == false) {
+            startButtonPressed = true; // make boolean true to prevent multiple start-games from multiple presses
+            socket.emit("startGameServer", JoinGame.roomName);
+        }
+
     }
 
     // Overriding the back button to disconnect when it is clicked
