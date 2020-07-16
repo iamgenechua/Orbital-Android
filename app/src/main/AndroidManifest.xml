@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.appsagainsthumanity_v1">
+    package="com.genexuanqi.spaceAgainstSpontaneity">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,17 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".gameEnded"></activity>
-        <activity android:name=".customizeRoom" />
-        <activity android:name=".WaitingLobby" />
-        <activity android:name=".JoinGame">
+        <activity android:name="com.genexuanqi.spaceAgainstSpontaneity.gameEnded"></activity>
+        <activity android:name="com.genexuanqi.spaceAgainstSpontaneity.customizeRoom" />
+        <activity android:name="com.genexuanqi.spaceAgainstSpontaneity.WaitingLobby" />
+        <activity android:name="com.genexuanqi.spaceAgainstSpontaneity.JoinGame">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="com.genexuanqi.spaceAgainstSpontaneity.MainActivity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
